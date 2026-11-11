@@ -1,0 +1,27 @@
+{
+  "name": "css-currency-converter",
+  "version": "1.0.0",
+  "description": "convert currency",
+  "type": "module",
+  "keywords": [
+    "npm"
+  ],
+  "homepage": "https://github.com/itsriteshx/npm_Packages#readme",
+  "bugs": {
+    "url": "https://github.com/itsriteshx/npm_Packages/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsriteshx/npm_Packages.git"
+  },
+  "license": "ISC",
+  "author": "Ritesh",
+ 
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "dependencies": {
+    "@everapi/freecurrencyapi-js": "^1.0.1"
+  }
+}
