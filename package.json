@@ -1,6 +1,6 @@
 {
   "name": "css-currency-converter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "convert currency",
   "type": "module",
   "keywords": [
@@ -16,7 +16,6 @@
   },
   "license": "ISC",
   "author": "Ritesh",
- 
   "main": "index.js",
   "scripts": {
     "test": "npm run test"
