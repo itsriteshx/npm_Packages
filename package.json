@@ -1,10 +1,29 @@
 {
-  "name": "css-currency-converter",
-  "version": "1.0.1",
-  "description": "convert currency",
+  "name": "@itsriteshx/currency-converter",
+  "version": "1.0.0",
+  "description": "A high-performance, feature-packed currency converter with in-memory caching, batch conversions, formatting, and TypeScript support.",
   "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
   "keywords": [
-    "npm"
+    "currency",
+    "currency-converter",
+    "exchange-rates",
+    "money",
+    "forex",
+    "finance",
+    "converter",
+    "cache",
+    "typescript"
   ],
   "homepage": "https://github.com/itsriteshx/npm_Packages#readme",
   "bugs": {
@@ -14,12 +33,8 @@
     "type": "git",
     "url": "git+https://github.com/itsriteshx/npm_Packages.git"
   },
+  "author": "Ritesh <royalritesh749291@gmail.com> (https://github.com/itsriteshx)",
   "license": "ISC",
-  "author": "Ritesh",
-  "main": "index.js",
-  "scripts": {
-    "test": "npm run test"
-  },
   "dependencies": {
     "@everapi/freecurrencyapi-js": "^1.0.1"
   }

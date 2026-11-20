@@ -1,94 +1,160 @@
-# css-currency-converter
+# @itsriteshx/currency-converter
 
-[![npm version](https://img.shields.io/npm/v/css-currency-converter.svg)](https://www.npmjs.com/package/css-currency-converter)
+[![npm version](https://img.shields.io/npm/v/@itsriteshx/currency-converter.svg)](https://www.npmjs.com/package/@itsriteshx/currency-converter)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
-A lightweight and easy-to-use JavaScript/Node.js package to convert currencies in real-time.
+A high-performance, feature-packed JavaScript & TypeScript currency conversion library for Node.js and browsers. Features smart in-memory caching, batch multi-currency conversions, localized currency formatting, and full type definitions.
 
 ---
 
-## 🚀 Features
+## 🌟 Key Features
 
-- ⚡ **Simple & Intuitive API**: Convert between currencies in a single function call.
-- 🔄 **Promise & async/await Support**: Clean asynchronous integration.
-- 📦 **ES Module Ready**: Works seamlessly with modern JavaScript and Node.js (`"type": "module"`).
+- ⚡ **Smart In-Memory Caching**: Caches exchange rates with configurable TTL (default 15 mins) to prevent rate limits and deliver ultra-fast (<1ms) repeated conversions.
+- 🔀 **Batch Conversions (`convertMany`)**: Convert an amount into multiple currencies in a single API call.
+- 💵 **Currency Formatter (`formatCurrency`)**: Built-in localized currency formatting using `Intl.NumberFormat` with proper currency symbols (`$`, `€`, `₹`, `£`).
+- 🛡️ **Auto-Sanitization & Validation**: Automatically handles lowercase codes (`'usd'` ➔ `'USD'`), trims whitespace, and validates positive numerical amounts.
+- 📝 **Full TypeScript Support**: Shipped with comprehensive `.d.ts` type definitions for complete IntelliSense and autocomplete.
+- 🚀 **Dual Interface**: Use functional exports or the object-oriented `CurrencyConverter` class.
 
 ---
 
 ## 📦 Installation
 
-Install the package via npm:
-
 ```bash
-npm install css-currency-converter
+npm install @itsriteshx/currency-converter
 ```
 
 ---
 
-## 💻 Usage
+## 🚀 Quick Start
 
-### Using `async / await` (Recommended)
+### 1. Simple Currency Conversion
 
 ```javascript
-import { convertCurrency } from "css-currency-converter";
+import { convertCurrency } from "@itsriteshx/currency-converter";
 
-async function run() {
-  try {
-    const result = await convertCurrency("USD", "EUR", 100);
-    console.log(`100 USD = ${result} EUR`);
-  } catch (error) {
-    console.error("Conversion failed:", error);
-  }
-}
-
-run();
+// Convert 100 USD to INR
+const inrAmount = await convertCurrency("USD", "INR", 100);
+console.log(`100 USD = ₹${inrAmount.toFixed(2)}`);
+// Output: 100 USD = ₹8329.54
 ```
 
-### Using Promises (`.then / .catch`)
+### 2. Multi-Currency Conversion (`convertMany`)
+
+Convert an amount into multiple target currencies in a single operation:
 
 ```javascript
-import { convertCurrency } from "css-currency-converter";
+import { convertMany } from "@itsriteshx/currency-converter";
 
-convertCurrency("USD", "INR", 50)
-  .then((result) => console.log(`Converted amount: ${result}`))
-  .catch((err) => console.error(err));
+const results = await convertMany("USD", ["EUR", "INR", "GBP", "JPY"], 100);
+console.log(results);
+/*
+Output:
+{
+  EUR: 92.51,
+  INR: 8329.54,
+  GBP: 79.12,
+  JPY: 15420.50
+}
+*/
+```
+
+### 3. Localized Currency Formatting (`formatCurrency`)
+
+```javascript
+import { formatCurrency } from "@itsriteshx/currency-converter";
+
+console.log(formatCurrency(8329.54, "INR", "en-IN")); // Output: "₹8,329.54"
+console.log(formatCurrency(1234.56, "USD", "en-US")); // Output: "$1,234.56"
+console.log(formatCurrency(500, "EUR", "de-DE"));     // Output: "500,00 €"
+```
+
+### 4. Fetch All Available Exchange Rates (`getRates`)
+
+```javascript
+import { getRates } from "@itsriteshx/currency-converter";
+
+const allRates = await getRates("USD");
+console.log(allRates);
+// Output: { EUR: 0.925, INR: 83.29, GBP: 0.791, ... }
+```
+
+### 5. Currency Metadata & Symbols
+
+```javascript
+import { getCurrencyInfo, getSupportedCurrencies } from "@itsriteshx/currency-converter";
+
+const inr = getCurrencyInfo("INR");
+console.log(inr);
+// Output: { code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳' }
+
+const allCurrencies = getSupportedCurrencies();
+console.log(`Supported: ${allCurrencies.length} currencies`);
+```
+
+---
+
+## ⚙️ Configuration & Custom API Key
+
+By default, the package includes a working fallback key. You can also configure your own [Freecurrencyapi](https://freecurrencyapi.com) API key:
+
+### Global Configuration
+```javascript
+import { configure } from "@itsriteshx/currency-converter";
+
+configure({
+  apiKey: "YOUR_CUSTOM_API_KEY",
+  cacheTTL: 30 * 60 * 1000, // Cache for 30 minutes (in ms)
+  useCache: true,
+});
+```
+
+Or pass `process.env.FREECURRENCY_API_KEY` in your environment.
+
+### Class-Based Client
+
+```javascript
+import { CurrencyConverter } from "@itsriteshx/currency-converter";
+
+const converter = new CurrencyConverter({
+  apiKey: "YOUR_API_KEY",
+  cacheTTL: 10 * 60 * 1000, // 10 minutes
+  useCache: true,
+});
+
+const result = await converter.convert("USD", "EUR", 250);
+console.log(result);
 ```
 
 ---
 
 ## 📖 API Reference
 
-### `convertCurrency(fromCurrency, toCurrency, units)`
+### `convertCurrency(from, to, units?, options?)`
+- `from` *(string)*: Base currency (case-insensitive, e.g. `'USD'`).
+- `to` *(string)*: Target currency (case-insensitive, e.g. `'INR'`).
+- `units` *(number, optional)*: Amount to convert (default: `1`).
+- `options` *(object, optional)*: `{ apiKey, useCache, cacheTTL }`.
+- Returns: `Promise<number>`.
 
-Converts an amount from one currency to another using the latest exchange rates.
+### `convertMany(from, toCurrencies[], units?, options?)`
+- `from` *(string)*: Base currency.
+- `toCurrencies` *(string[])*: Array of target currency codes.
+- `units` *(number, optional)*: Amount to convert (default: `1`).
+- Returns: `Promise<Record<string, number>>`.
 
-#### Parameters:
+### `formatCurrency(amount, currency?, locale?, formatOptions?)`
+- `amount` *(number)*: Numerical value to format.
+- `currency` *(string, default: 'USD')*: 3-letter currency code.
+- `locale` *(string, default: 'en-US')*: BCP 47 language code.
+- Returns: `string`.
 
-| Parameter | Type | Description |
-| :--- | :--- | :--- |
-| `fromCurrency` | `string` | The base 3-letter currency code (e.g. `"USD"`, `"EUR"`, `"INR"`). |
-| `toCurrency` | `string` | The target 3-letter currency code (e.g. `"EUR"`, `"GBP"`, `"JPY"`). |
-| `units` | `number` | The amount of base currency you want to convert. |
+### `getRates(baseCurrency?, options?)`
+- Returns: `Promise<Record<string, number>>`.
 
-#### Returns:
-
-- `Promise<number>`: Resolves to the converted value.
-
----
-
-## 🌐 Common Supported Currency Codes
-
-Supports standard 3-letter ISO currency codes, including:
-
-- `USD` - US Dollar
-- `EUR` - Euro
-- `GBP` - British Pound
-- `INR` - Indian Rupee
-- `JPY` - Japanese Yen
-- `CAD` - Canadian Dollar
-- `AUD` - Australian Dollar
-- `CHF` - Swiss Franc
-- And more!
+### `clearCache()`
+- Clears the in-memory cache manually.
 
 ---
 
@@ -96,10 +162,10 @@ Supports standard 3-letter ISO currency codes, including:
 
 **Ritesh**
 - GitHub: [@itsriteshx](https://github.com/itsriteshx)
+- Email: royalritesh749291@gmail.com
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [ISC License](LICENSE).
-
+Licensed under the [ISC License](LICENSE).
