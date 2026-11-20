@@ -1,5 +1,5 @@
 {
-  "name": "@itsriteshx/currency-converter",
+  "name": "ritesh-currency-converter",
   "version": "1.0.0",
   "description": "A high-performance, feature-packed currency converter with in-memory caching, batch conversions, formatting, and TypeScript support.",
   "type": "module",

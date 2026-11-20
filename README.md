@@ -1,6 +1,6 @@
-# @itsriteshx/currency-converter
+# ritesh-currency-converter
 
-[![npm version](https://img.shields.io/npm/v/@itsriteshx/currency-converter.svg)](https://www.npmjs.com/package/@itsriteshx/currency-converter)
+[![npm version](https://img.shields.io/npm/v/ritesh-currency-converter.svg)](https://www.npmjs.com/package/ritesh-currency-converter)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
@@ -22,7 +22,7 @@ A high-performance, feature-packed JavaScript & TypeScript currency conversion l
 ## 📦 Installation
 
 ```bash
-npm install @itsriteshx/currency-converter
+npm install ritesh-currency-converter
 ```
 
 ---
@@ -32,7 +32,7 @@ npm install @itsriteshx/currency-converter
 ### 1. Simple Currency Conversion
 
 ```javascript
-import { convertCurrency } from "@itsriteshx/currency-converter";
+import { convertCurrency } from "ritesh-currency-converter";
 
 // Convert 100 USD to INR
 const inrAmount = await convertCurrency("USD", "INR", 100);
@@ -45,7 +45,7 @@ console.log(`100 USD = ₹${inrAmount.toFixed(2)}`);
 Convert an amount into multiple target currencies in a single operation:
 
 ```javascript
-import { convertMany } from "@itsriteshx/currency-converter";
+import { convertMany } from "ritesh-currency-converter";
 
 const results = await convertMany("USD", ["EUR", "INR", "GBP", "JPY"], 100);
 console.log(results);
@@ -63,7 +63,7 @@ Output:
 ### 3. Localized Currency Formatting (`formatCurrency`)
 
 ```javascript
-import { formatCurrency } from "@itsriteshx/currency-converter";
+import { formatCurrency } from "ritesh-currency-converter";
 
 console.log(formatCurrency(8329.54, "INR", "en-IN")); // Output: "₹8,329.54"
 console.log(formatCurrency(1234.56, "USD", "en-US")); // Output: "$1,234.56"
@@ -73,7 +73,7 @@ console.log(formatCurrency(500, "EUR", "de-DE"));     // Output: "500,00 €"
 ### 4. Fetch All Available Exchange Rates (`getRates`)
 
 ```javascript
-import { getRates } from "@itsriteshx/currency-converter";
+import { getRates } from "ritesh-currency-converter";
 
 const allRates = await getRates("USD");
 console.log(allRates);
@@ -83,7 +83,7 @@ console.log(allRates);
 ### 5. Currency Metadata & Symbols
 
 ```javascript
-import { getCurrencyInfo, getSupportedCurrencies } from "@itsriteshx/currency-converter";
+import { getCurrencyInfo, getSupportedCurrencies } from "ritesh-currency-converter";
 
 const inr = getCurrencyInfo("INR");
 console.log(inr);
@@ -101,7 +101,7 @@ By default, the package includes a working fallback key. You can also configure 
 
 ### Global Configuration
 ```javascript
-import { configure } from "@itsriteshx/currency-converter";
+import { configure } from "ritesh-currency-converter";
 
 configure({
   apiKey: "YOUR_CUSTOM_API_KEY",
@@ -115,7 +115,7 @@ Or pass `process.env.FREECURRENCY_API_KEY` in your environment.
 ### Class-Based Client
 
 ```javascript
-import { CurrencyConverter } from "@itsriteshx/currency-converter";
+import { CurrencyConverter } from "ritesh-currency-converter";
 
 const converter = new CurrencyConverter({
   apiKey: "YOUR_API_KEY",
